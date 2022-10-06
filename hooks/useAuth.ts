@@ -2,7 +2,7 @@ import type {UserNotConfirmedException} from '@aws-sdk/client-cognito-identity-p
 import {useRouter} from 'next/router';
 
 type ValsType = {
-	username: string | undefined;
+	email: string | undefined;
 	password: string | undefined;
 };
 
@@ -25,14 +25,14 @@ const useAuth = () => {
 			if (responseData?.message?.includes('UserNotConfirmedException')) {
 				await fetch('/api/confirm/send', {
 					method: 'POST',
-					body: JSON.stringify({username: vals.username}),
+					body: JSON.stringify({email: vals.email}), // CHECK THIS LATER
 					headers: {
 						'Content-Type': 'application/json',
 					},
 				});
 				await router.push({
 					pathname: '/confirm',
-					query: {username: vals.username},
+					query: {email: vals.email},
 				});
 			}
 		}).then(res => {

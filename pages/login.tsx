@@ -7,13 +7,14 @@ import schema from '../hooks/useFormValidation';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import ErrHandler from '../components/ErrHandler';
+import useAuth from '../hooks/useAuth';
 
 /**
 * @return {JSX.Element} Home object
 */
 function Login(): JSX.Element {
 	const {loginSchema} = schema();
-
+	const {login} = useAuth();
 	return (
 		<>
 			<Title>Login</Title>
@@ -22,9 +23,7 @@ function Login(): JSX.Element {
 				validationSchema={loginSchema}
 				validateOnBlur={false}
 				validateOnChange={false}
-				onSubmit={() => {
-					console.log('Submitting');
-				}}
+				onSubmit={login}
 			>
 				{({
 					handleChange,

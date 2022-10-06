@@ -2,13 +2,16 @@ import {Router, useRouter} from 'next/router';
 
 type ValTypes = {
 	email: string;
+	username: string;
 	password: string;
+	confirmPassword: string;
 };
 
 const useRegister = () => {
 	const router = useRouter();
+
 	const register = (vals: ValTypes, {setSubmitting}) => {
-		fetch('/api/register', {
+		fetch('/api/auth/register', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -18,8 +21,9 @@ const useRegister = () => {
 			if (res.ok) {
 				router.push({
 					pathname: '/confirm',
-					query: {email: vals?.email},
-				}, '/confirm').catch(err => {
+					query: {username: vals?.username},
+				},
+				'/confirm').catch(err => {
 					console.error(err);
 				});
 			} else {
@@ -28,7 +32,7 @@ const useRegister = () => {
 		}).catch(err => {
 			console.error(err);
 		}).finally(() => {
-			setSubmitting(false);
+			// SetSubmitting(false);
 		});
 	};
 

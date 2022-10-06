@@ -3,11 +3,12 @@ import type {AuthenticationResultType, AdminInitiateAuthCommandOutput} from '@aw
 import {CognitoIdentityProviderClient, AdminInitiateAuthCommand} from '@aws-sdk/client-cognito-identity-provider';
 import type {ResponseMetadata} from '@aws-sdk/types';
 import type {NextApiRequest, NextApiResponse} from 'next';
-const {COGNITO_REGION, COGNITO_APP_CLIENT_ID, COGNITO_USER_POOL} = process.env;
+const {COGNITO_REGION, COGNITO_APP_CLIENT_ID, COGNITO_USER_POOL, COGNITO_SECRET} = process.env;
+import {createHmac} from 'crypto';
 
 type RequestType = {
 	body: {
-		username: string;
+		email: string;
 		password: string;
 	};
 } & NextApiRequest;
@@ -19,16 +20,22 @@ const handler = async (req: RequestType, res: NextApiResponse) => {
 		res.status(405).json({message: 'Method Not Allowed'});
 	}
 
+	const hasher = createHmac('sha256', COGNITO_SECRET!);
+	hasher.update(`${req.body.email as string}${COGNITO_APP_CLIENT_ID!}`);
+	const secretHash = hasher.digest('base64');
+
 	const params = {
 		AuthFlow: 'ADMIN_USER_PASSWORD_AUTH',
 		ClientId: COGNITO_APP_CLIENT_ID,
 		UserPoolId: COGNITO_USER_POOL,
 		AuthParameters: {
-			USERNAME: req.body.username as string,
+			USERNAME: req.body.email as string,
 			PASSWORD: req.body.password as string,
+			SECRET_HASH: secretHash,
 		},
 
 	};
+	console.log(params);
 
 	const cognitoClient: CognitoIdentityProviderClient = new CognitoIdentityProviderClient({region: COGNITO_REGION});
 	const adminAuthCommand: AdminInitiateAuthCommand = new AdminInitiateAuthCommand(params);
@@ -46,14 +53,14 @@ const handler = async (req: RequestType, res: NextApiResponse) => {
 		console.error('Login Error: ', err);
 
 		if (instancOfAdminInitiateAuthCommandOutput(err)) {
+			console.error('rerouting');
 			const error: AdminInitiateAuthCommandOutput = err;
-			// eslint-disable-next-line @typescript-eslint/dot-notation
-			const responseStatus: number = err['$metadata'].httpStatusCode!;
 
+			const responseStatus = 403;
 			// eslint-disable-next-line @typescript-eslint/no-base-to-string
 			res.status(responseStatus).json({message: error.toString()});
 		} else {
-			res.status(520).json({message: 'Unknown Error'});
+			res.status(500).json({message: 'Unknown Error'});
 		}
 	}
 };

@@ -3,13 +3,14 @@ import {Formik} from 'formik';
 import schema from '../hooks/useFormValidation';
 import {Button, Container, Stack, TextInput, Title} from '@mantine/core';
 import ErrHandler from '../components/ErrHandler';
+import useRegister from '../hooks/useRegister';
 
 /**
 * @return {JSX.Element} Home object
 */
 function Register(): JSX.Element {
 	const {registerSchema} = schema();
-
+	const {register} = useRegister();
 	return (
 		<>
 			<Title>Register</Title>
@@ -18,9 +19,7 @@ function Register(): JSX.Element {
 				validationSchema={registerSchema}
 				validateOnBlur={false}
 				validateOnChange={false}
-				onSubmit={() => {
-					console.log('Submitting');
-				}}
+				onSubmit={register}
 			>
 				{({
 					handleChange,
@@ -57,7 +56,7 @@ function Register(): JSX.Element {
 									placeholder='Username'
 								/>
 								{
-									errors.email === undefined
+									errors.username === undefined
 										? <></>
 										: <ErrHandler isError>{errors?.username}</ErrHandler>
 								}

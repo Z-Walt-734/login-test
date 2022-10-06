@@ -4,11 +4,11 @@ import {CognitoIdentityProviderClient, SignUpCommand} from '@aws-sdk/client-cogn
 import type {ResponseMetadata} from '@aws-sdk/types';
 import {sign} from 'crypto';
 import type {NextApiRequest, NextApiResponse} from 'next';
-const {COGNITO_REGION, COGNITO_APP_CLIENT_ID} = process.env;
+const {COGNITO_REGION, COGNITO_APP_CLIENT_ID, COGNITO_SECRET} = process.env;
+import {createHmac} from 'crypto';
 
 type RequestType = {
 	body: {
-		username: string;
 		password: string;
 		email: string;
 	};
@@ -22,14 +22,19 @@ const handler = async (req: RequestType, res: NextApiResponse<AuthenticationResu
 		return;
 	}
 
+	const hasher = createHmac('sha256', COGNITO_SECRET!);
+	hasher.update(`${req.body.email as string}${COGNITO_APP_CLIENT_ID!}`);
+	const secretHash = hasher.digest('base64');
+
 	const params: SignUpCommandInput = {
 		ClientId: COGNITO_APP_CLIENT_ID,
+		SecretHash: secretHash,
 		Password: req.body.password as string,
-		Username: req.body.username as string,
+		Username: req.body.email as string,
 		UserAttributes: [
 			{
-				Name: 'Email',
-				Value: req.body.email as string,
+				Name: 'preferred_username',
+				Value: req.body.username as string,
 			},
 		],
 
@@ -55,7 +60,7 @@ const handler = async (req: RequestType, res: NextApiResponse<AuthenticationResu
 			// eslint-disable-next-line @typescript-eslint/dot-notation
 			res.status(responseStatus).json({...err['$metadata']});
 		} else {
-			res.status(520).json({});
+			res.status(500).json({});
 		}
 	}
 };
