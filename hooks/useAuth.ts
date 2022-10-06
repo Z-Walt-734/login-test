@@ -40,7 +40,7 @@ const useAuth = () => {
 		}).catch((err: unknown) => {
 			console.error('useAuth Error: ', err);
 		}).finally(() => {
-			setSubmitting(false);
+			// SetSubmitting(false);
 		});
 	};
 

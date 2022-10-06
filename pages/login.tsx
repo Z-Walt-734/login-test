@@ -65,7 +65,7 @@ function Login(): JSX.Element {
 										? <></>
 										: <ErrHandler isError>{errors?.password}</ErrHandler>
 								}
-								<Button variant='outline' type='submit' mt='lg' isSubmitting={isSubmitting}>Submit</Button>
+								<Button variant='outline' type='submit' mt='lg' >Submit</Button>
 							</Stack>
 						</Container>
 					</form>
