@@ -4,14 +4,13 @@ import {CognitoIdentityProviderClient, SignUpCommand} from '@aws-sdk/client-cogn
 import type {ResponseMetadata} from '@aws-sdk/types';
 import {sign} from 'crypto';
 import type {NextApiRequest, NextApiResponse} from 'next';
-const {COGNITO_REGION, COGNITO_APP_CLIENT_ID, COGNITO_USER_POOL} = process.env;
+const {COGNITO_REGION, COGNITO_APP_CLIENT_ID} = process.env;
 
 type RequestType = {
 	body: {
 		username: string;
 		password: string;
 		email: string;
-		dob: string;
 	};
 } & NextApiRequest;
 
@@ -31,10 +30,6 @@ const handler = async (req: RequestType, res: NextApiResponse<AuthenticationResu
 			{
 				Name: 'Email',
 				Value: req.body.email as string,
-			},
-			{
-				Name: 'DOB',
-				Value: req.body.dob as string,
 			},
 		],
 

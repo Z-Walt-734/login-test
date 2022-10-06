@@ -14,7 +14,7 @@ function Register(): JSX.Element {
 		<>
 			<Title>Register</Title>
 			<Formik
-				initialValues={{email: '', password: '', confirmPassword: ''}}
+				initialValues={{email: '', username: '', password: '', confirmPassword: ''}}
 				validationSchema={registerSchema}
 				validateOnBlur={false}
 				validateOnChange={false}
@@ -46,6 +46,20 @@ function Register(): JSX.Element {
 									errors.email === undefined
 										? <></>
 										: <ErrHandler isError>{errors?.email}</ErrHandler>
+								}
+								<TextInput
+									onBlur={handleBlur}
+									value={values?.username}
+									onChange={handleChange}
+									type='text'
+									name='username'
+									label='Username'
+									placeholder='Username'
+								/>
+								{
+									errors.email === undefined
+										? <></>
+										: <ErrHandler isError>{errors?.username}</ErrHandler>
 								}
 								<TextInput
 									onBlur={handleBlur}
