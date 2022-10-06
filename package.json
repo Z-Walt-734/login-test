@@ -1,0 +1,41 @@
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.183.0",
+    "@aws-sdk/types": "^3.183.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "^5.4.1",
+    "@mantine/form": "^5.4.2",
+    "@mantine/hooks": "^5.4.1",
+    "@mantine/next": "^5.4.1",
+    "@tabler/icons": "^1.101.0",
+    "aws-jwt-verify": "^3.1.0",
+    "formik": "^2.2.9",
+    "next": "^12.3.1",
+    "next-auth": "^4.12.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.23",
+    "@types/react": "18.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "eslint": "^8.24.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-config-xo": "^0.42.0",
+    "eslint-config-xo-typescript": "^0.53.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-react": "^7.31.8",
+    "typescript": "^4.8.4"
+  }
+}
