@@ -7,7 +7,7 @@ import schema from '../hooks/useFormValidation';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import ErrHandler from '../components/ErrHandler';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuthorize';
 
 /**
 * @return {JSX.Element} Home object
