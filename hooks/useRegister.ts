@@ -1,4 +1,6 @@
 import {Router, useRouter} from 'next/router';
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const {API_GATEWAY_ENDPOINT} = process.env;
 
 type ValTypes = {
 	email: string;
@@ -11,7 +13,9 @@ const useRegister = () => {
 	const router = useRouter();
 
 	const register = (vals: ValTypes, {setSubmitting}) => {
-		fetch('/api/auth/register', {
+		const url: string | undefined = API_GATEWAY_ENDPOINT! + '/auth/register';
+
+		fetch(url, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

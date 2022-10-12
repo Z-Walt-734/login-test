@@ -1,6 +1,10 @@
 import {Title} from '@mantine/core';
 import React from 'react';
 
+export const getServerSideProps = async () => {
+	const url = process.env.API_GATEWAY_ENDPOINT;
+};
+
 /**
 * @return {JSX.Element} Home object
 */

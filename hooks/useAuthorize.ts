@@ -1,6 +1,9 @@
 import type {UserNotConfirmedException} from '@aws-sdk/client-cognito-identity-provider';
 import {useRouter} from 'next/router';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const {API_GATEWAY_ENDPOINT} = process.env;
+
 type ValsType = {
 	email: string | undefined;
 	password: string | undefined;
@@ -10,7 +13,8 @@ const useAuth = () => {
 	const router = useRouter();
 	const login = (vals: ValsType, {setSubmitting}) => {
 		console.log('Logging in');
-		fetch('/api/auth/login', {
+		const url: string | undefined = API_GATEWAY_ENDPOINT! + '/auth/login';
+		fetch(url, {
 			method: 'POST',
 			body: JSON.stringify(vals),
 			headers: {
