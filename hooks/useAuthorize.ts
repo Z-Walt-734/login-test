@@ -13,7 +13,7 @@ const useAuth = () => {
 	const router = useRouter();
 	const login = (vals: ValsType, {setSubmitting}) => {
 		console.log('Logging in');
-		const url: string | undefined = API_GATEWAY_ENDPOINT! + '/auth/login';
+		const url: string = API_GATEWAY_ENDPOINT! + '/auth/login';
 		fetch(url, {
 			method: 'POST',
 			body: JSON.stringify(vals),
@@ -27,7 +27,7 @@ const useAuth = () => {
 
 			const responseData: UserNotConfirmedException = await res.json() as UserNotConfirmedException;
 			if (responseData?.message?.includes('UserNotConfirmedException')) {
-				await fetch('/api/confirm/send', {
+				await fetch(API_GATEWAY_ENDPOINT! + '/sendConfirm', {
 					method: 'POST',
 					body: JSON.stringify({email: vals.email}), // CHECK THIS LATER
 					headers: {

@@ -13,7 +13,7 @@ const useRegister = () => {
 	const router = useRouter();
 
 	const register = (vals: ValTypes, {setSubmitting}) => {
-		const url: string | undefined = API_GATEWAY_ENDPOINT! + '/auth/register';
+		const url: string = API_GATEWAY_ENDPOINT! + '/auth/register';
 
 		fetch(url, {
 			method: 'POST',
