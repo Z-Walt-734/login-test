@@ -16,6 +16,7 @@ const useAuth = () => {
 		const url: string = API_GATEWAY_ENDPOINT + '/auth/login';
 		fetch(url, {
 			method: 'POST',
+			credentials: 'include',
 			body: JSON.stringify(vals),
 			headers: {
 				'Content-Type': 'application/json',
@@ -29,6 +30,7 @@ const useAuth = () => {
 			if (responseData?.message?.includes('UserNotConfirmedException')) {
 				await fetch(API_GATEWAY_ENDPOINT + '/sendConfirm', {
 					method: 'POST',
+					credentials: 'include',
 					body: JSON.stringify({email: vals.email}), // CHECK THIS LATER
 					headers: {
 						'Content-Type': 'application/json',

@@ -6,14 +6,7 @@ const {parsed: localEnv} = require('dotenv').config({
 
 const nextConfig = {
 	env: localEnv,
-	async rewrites() {
-		return [
-			{
-				source: '/api/:path*',
-				destination: 'https://api.zachwalters.io/:path*',
-			},
-		];
-	},
 };
 
 module.exports = nextConfig;
+
